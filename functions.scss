@@ -1,0 +1,28 @@
+// Functions for stripping the unit from a number
+
+@function strip-unit($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+
+// Function to strip the unit from number and convert a value to rem
+
+@function convert-to-rem($value) {
+  $unitless-value: strip-unit($value);
+  
+  @return ($unitless-value / 16) * 1rem
+}
+
+
+// Function that takes multiple values, strips the unit from the number, converts the number to REM and outputs them.
+
+@function rem-calc($values) {
+  $list-of-values: ();
+  $count: length($values);
+  
+  @for $i from 1 through $count {
+    $list-of-values: append($list-of-values, convert-to-rem(strip-unit(nth($values, $i))));
+  }
+  
+  @return $list-of-values;
+}
